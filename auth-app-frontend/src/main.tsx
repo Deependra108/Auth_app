@@ -7,6 +7,8 @@ import About from "./pages/About.tsx";
 import Signup from "./pages/Signup.tsx";
 import Services from "./pages/Services.tsx";
 import RouterLayout from "./pages/RootLayout.tsx";
+import { User } from "lucide-react";
+import Userlayout from "./pages/users/Userlayout.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -18,6 +20,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/dashboard" element={<Userlayout />}/>
 
       </Route>
     </Routes>

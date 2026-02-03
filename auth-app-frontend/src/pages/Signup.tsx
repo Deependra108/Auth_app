@@ -4,11 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github, Mail, User, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import type RegisterData from "@/models/RegisterData";
-
+import { registerUser } from "@/services/AuthService";
 
 function Signup() {
   const [data, setData] = useState<RegisterData>({
@@ -19,6 +19,7 @@ function Signup() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // text input, email, password, textarea, number, checkbox, radio, select
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +31,7 @@ function Signup() {
     }));
   };
 
-  const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(data);
 
@@ -52,6 +53,23 @@ function Signup() {
     setLoading(true);
 
     // form submit for registration
+    try {
+      const result =await registerUser(data);
+      console.log(result);
+      toast.success("Registration successful! Please log in.");
+      setLoading(false);
+
+      setData({
+        name: "",
+        email: "",
+        password: "",
+      });
+      // navigate to login page
+      navigate("/login");
+    } catch (error) {
+      toast.error("Registration failed. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
